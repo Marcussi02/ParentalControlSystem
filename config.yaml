@@ -1,0 +1,35 @@
+face_landmarker_model: "face_landmarker.task"
+
+camera:
+  device_index: 0
+  frame_width: 640
+  frame_height: 480
+  fps: 30
+
+eye_tracking:
+  look_away_threshold_seconds: 20
+  gaze_center_tolerance: 0.15
+
+drowsiness:
+  ear_threshold: 0.21
+  ear_threshold_offset: 0.0       # increase by ~0.02 if child wears glasses
+  continuous_close_seconds: 3
+  perclos_window_seconds: 60
+  perclos_alert_threshold: 0.80
+  sleepy_ear_threshold: 0.26      # EAR below this (but above ear_threshold) = heavy/drooping eyes
+  sleepy_seconds: 15              # alert after this many seconds of continuous sleepy eyes
+
+clickbait:
+  score_threshold: 55
+  kids_mode: true
+  safety_threshold: 25
+
+alerts:
+  log_path: "logs/events.json"
+  notification_title: "Parental Control Alert"
+  notification_timeout: 5
+
+gui:
+  webcam_refresh_ms: 33
+  dashboard_width: 1100
+  dashboard_height: 700
