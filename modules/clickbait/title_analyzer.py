@@ -1,5 +1,4 @@
 import re
-import unicodedata
 
 # Kids-targeted clickbait keywords (matched case-insensitively)
 KIDS_CLICKBAIT_KEYWORDS = [

@@ -285,7 +285,8 @@ class ContentFilter:
             blood_ratio = float(np.sum(blood_mask)) / blood_mask.size
             if blood_ratio > _BLOOD_RATIO_ALERT:
                 flags.append(
-                    f"High red-dominant pixels in thumbnail ({blood_ratio:.0%}) — possible violence/gore"
+                    f"High red-dominant pixels in thumbnail ({blood_ratio:.0%})"
+                    " — possible violence/gore"
                 )
                 score += min(30, int(15 + (blood_ratio - _BLOOD_RATIO_ALERT) * 150))
 

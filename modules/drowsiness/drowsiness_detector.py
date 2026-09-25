@@ -31,6 +31,7 @@ class DrowsinessDetector:
         self._eyes_closed_since: float | None = None
         self._sleepy_since: float | None = None
         self._perclos_buffer: collections.deque = collections.deque()
+        self._perclos_started: float | None = None  # first frame seen
         self._last_drowsy_alert: float = 0.0
         self._last_sleepy_alert: float = 0.0
         self._lock = threading.Lock()
@@ -104,7 +105,9 @@ class DrowsinessDetector:
             # Full drowsiness (closed or PERCLOS)
             if continuous_duration >= self._continuous_limit:
                 alert_reason = f"eyes closed {continuous_duration:.1f}s"
-            elif perclos >= self._perclos_alert:
+            elif perclos >= self._perclos_alert and self._perclos_window_full(now):
+                # Only trust PERCLOS once a full window has been observed;
+                # otherwise a single blink at start-up reads as 100% closed.
                 alert_reason = f"PERCLOS {perclos:.0%} over {self._perclos_window:.0f}s"
 
             drowsy = alert_reason is not None
@@ -143,7 +146,13 @@ class DrowsinessDetector:
 
         return self._status
 
+    def _perclos_window_full(self, now: float) -> bool:
+        return (self._perclos_started is not None
+                and now - self._perclos_started >= self._perclos_window)
+
     def _update_perclos(self, now: float, is_closed: bool) -> float:
+        if self._perclos_started is None:
+            self._perclos_started = now
         cutoff = now - self._perclos_window
         while self._perclos_buffer and self._perclos_buffer[0][0] < cutoff:
             self._perclos_buffer.popleft()
