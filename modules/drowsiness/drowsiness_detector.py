@@ -69,7 +69,7 @@ class DrowsinessDetector:
             )
             left_ear = EARCalculator.ear(left_pts)
             right_ear = EARCalculator.ear(right_pts)
-            ear = EARCalculator.average_ear(left_ear, right_ear)
+            ear = float(EARCalculator.average_ear(left_ear, right_ear))
         except Exception:
             return self._status
 
