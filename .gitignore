@@ -24,3 +24,7 @@ face_landmarker.task
 # OS
 Thumbs.db
 .DS_Store
+
+# Tool caches
+.ruff_cache/
+.pytest_cache/
